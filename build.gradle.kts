@@ -10,6 +10,7 @@ buildscript {
         classpath("com.android.tools.build:gradle:${Versions.androidGradlePlugin}")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:${Versions.kotlin}")
         classpath("de.mannodermaus.gradle.plugins:android-junit5:${Versions.jUnit5Android}")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:${Versions.dagger}")
     }
 }
 

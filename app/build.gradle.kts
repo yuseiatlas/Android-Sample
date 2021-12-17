@@ -8,6 +8,8 @@ plugins {
     kotlin("android")
     kotlin("kapt")
     id("kotlin-android-extensions") // Needs to be after kotlin-android
+    id("dagger.hilt.android.plugin")
+    id("com.apollographql.apollo3") version Versions.apollo
 }
 android {
     compileSdk = Versions.androidCompileSdk
@@ -18,6 +20,8 @@ android {
         targetSdk = Versions.androidTargetSdk
         versionCode = Versions.appVersionCode
         versionName = Versions.appVersionName
+
+        buildConfigField("String", "SERVER_URL", "\"https://graphqlzero.almansi.me/api\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -39,6 +43,11 @@ android {
     kotlinOptions {
         jvmTarget = JavaVersion.VERSION_11.toString()
     }
+
+    kapt {
+        correctErrorTypes = true
+    }
+
     buildFeatures {
         viewBinding = true
         dataBinding = true
@@ -56,6 +65,14 @@ android {
         unitTests.all {
             it.useJUnitPlatform()
         }
+    }
+
+    hilt {
+        enableAggregatingTask = true
+    }
+
+    apollo {
+        packageName.set(defaultConfig.applicationId)
     }
 }
 
@@ -89,12 +106,12 @@ dependencies {
     implementation("androidx.room:room-ktx:${Versions.room}")
 
     // Dagger
-    implementation("com.google.dagger:dagger-android-support:${Versions.dagger}")
-    kapt("com.google.dagger:dagger-compiler:${Versions.dagger}")
-    kapt("com.google.dagger:dagger-android-processor:${Versions.dagger}")
+    implementation( "com.google.dagger:hilt-android:${Versions.dagger}")
+    kapt("com.google.dagger:hilt-compiler:${Versions.dagger}")
 
     // Standard libraries
     implementation("com.jakewharton.timber:timber:${Versions.timber}")
+    implementation("com.apollographql.apollo3:apollo-runtime:${Versions.apollo}")
     implementation("com.google.code.gson:gson:${Versions.gson}")
     implementation("com.squareup.okio:okio:${Versions.okIo}")
 
@@ -111,8 +128,8 @@ dependencies {
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${Versions.jUnit5}")
 
     // Dagger
-    kaptAndroidTest("com.google.dagger:dagger-compiler:${Versions.dagger}")
-    kaptAndroidTest("com.google.dagger:dagger-android-processor:${Versions.dagger}")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:${Versions.dagger}")
+    kaptAndroidTest("com.google.dagger:hilt-compiler:${Versions.dagger}")
 
     // Kotest
     testImplementation("io.kotest:kotest-runner-junit5:${Versions.kotest}")

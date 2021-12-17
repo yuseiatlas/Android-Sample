@@ -37,13 +37,13 @@ object Versions {
     // Libraries
     const val googleMaterialComponents = "1.4.0"
     const val room = "2.3.0"
-    const val dagger = "2.38.1"
+    const val dagger = "2.40.5"
     const val gson = "2.8.8"
     const val okIo = "2.10.0"
     const val okHttp = "4.9.1"
     const val timber = "5.0.1"
     const val leakCanary = "2.7"
-    const val retrofit = "2.9.0"
+    const val apollo = "3.0.0"
 
     // Testing
     const val jUnit5 = "5.7.1"
