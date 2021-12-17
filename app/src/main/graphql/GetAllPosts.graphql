@@ -5,6 +5,7 @@ query GetAllPosts(
         data {
             id
             title
+            body
         }
         meta {
             totalCount
