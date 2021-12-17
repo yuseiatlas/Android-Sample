@@ -22,9 +22,8 @@ object Versions {
     // AndroidX and other Google things
     const val androidXCore = "1.6.0"
     const val androidXFragment = "1.3.6"
-    const val androidXNavigation = "2.3.4"
+    const val androidXNavigation = "2.3.5"
     const val androidXRecyclerView = "1.2.1"
-    const val androidXViewPager2 = "1.0.0"
     const val androidXCardView = "1.0.0"
     const val androidXAppCompat = "1.3.1"
     const val androidXVectorDrawableAnimated = "1.0.0"

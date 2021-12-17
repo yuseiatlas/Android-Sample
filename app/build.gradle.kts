@@ -50,7 +50,6 @@ android {
 
     buildFeatures {
         viewBinding = true
-        dataBinding = true
     }
 
     lint {
@@ -83,13 +82,15 @@ dependencies {
 
     // AndroidX
     implementation("androidx.core:core-ktx:${Versions.androidXCore}")
+    implementation("androidx.fragment:fragment:${Versions.androidXFragment}")
     implementation("androidx.fragment:fragment-ktx:${Versions.androidXFragment}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.androidXConstraintLayout}")
     implementation("androidx.paging:paging-runtime-ktx:${Versions.androidXPaging}")
     implementation("androidx.recyclerview:recyclerview:${Versions.androidXRecyclerView}")
-    implementation("androidx.viewpager2:viewpager2:${Versions.androidXViewPager2}")
     implementation("androidx.cardview:cardview:${Versions.androidXCardView}")
     implementation("androidx.appcompat:appcompat:${Versions.androidXAppCompat}")
+    implementation("androidx.navigation:navigation-fragment-ktx:${Versions.androidXNavigation}")
+    implementation("androidx.navigation:navigation-ui-ktx:${Versions.androidXNavigation}")
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-common-java8:${Versions.androidXLifecycle}")
