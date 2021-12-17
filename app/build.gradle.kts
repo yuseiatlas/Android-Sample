@@ -113,7 +113,7 @@ dependencies {
     implementation("com.jakewharton.timber:timber:${Versions.timber}")
     implementation("com.apollographql.apollo3:apollo-runtime:${Versions.apollo}")
     implementation("com.google.code.gson:gson:${Versions.gson}")
-    implementation("com.squareup.okio:okio:${Versions.okIo}")
+    implementation("com.squareup.okhttp3:logging-interceptor:${Versions.okHttp3}")
 
     // **** DEBUG **** //
 

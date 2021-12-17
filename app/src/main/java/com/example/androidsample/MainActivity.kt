@@ -9,7 +9,6 @@ import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.exception.ApolloException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -24,8 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         lifecycleScope.launch {
             try {
-                val response = apolloClient.query(GetAllPostsQuery()).execute()
-                Timber.v("response: ${response.data?.posts}")
+                apolloClient.query(GetAllPostsQuery()).execute()
             } catch (exception: ApolloException) {
                 exception.printStackTrace()
                 Toast.makeText(this@MainActivity, "No internet", LENGTH_LONG).show()
