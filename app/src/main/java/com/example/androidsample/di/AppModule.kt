@@ -3,6 +3,8 @@ package com.example.androidsample.di
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
 import com.example.androidsample.BuildConfig
+import com.example.androidsample.network.ApiService
+import com.example.androidsample.network.ApiServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -31,4 +33,8 @@ object AppModule {
             .okHttpClient(okHttpClient)
             .build()
     }
+
+    @Singleton
+    @Provides
+    fun provideApiService(apolloClient: ApolloClient): ApiService = ApiServiceImpl(apolloClient)
 }
