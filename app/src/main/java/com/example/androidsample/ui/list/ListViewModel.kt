@@ -31,10 +31,14 @@ class ListViewModel @Inject constructor(
         launch(coroutineScope) {
             _state.emit(_state.value.copy(isLoading = true))
             try {
-                _state.emit(_state.value.copy(isLoading = false))
-
                 val posts = repository.fetchPosts()
-                _state.emit(_state.value.copy(posts = posts))
+
+                _state.emit(
+                    _state.value.copy(
+                        posts = posts,
+                        isLoading = false
+                    )
+                )
             } catch (throwable: Throwable) {
                 _state.emit(_state.value.copy(isLoading = false))
 

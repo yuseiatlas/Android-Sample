@@ -91,6 +91,7 @@ dependencies {
     implementation("androidx.appcompat:appcompat:${Versions.androidXAppCompat}")
     implementation("androidx.navigation:navigation-fragment-ktx:${Versions.androidXNavigation}")
     implementation("androidx.navigation:navigation-ui-ktx:${Versions.androidXNavigation}")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:${Versions.swipeRefresh}")
 
     // Lifecycle
     implementation("androidx.lifecycle:lifecycle-common-java8:${Versions.androidXLifecycle}")

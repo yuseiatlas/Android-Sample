@@ -32,6 +32,7 @@ object Versions {
     const val androidXArch = "2.1.0"
     const val androidXPaging = "3.0.1"
     const val androidXAnnotation = "1.1.0"
+    const val swipeRefresh = "1.1.0"
 
     // Libraries
     const val googleMaterialComponents = "1.4.0"

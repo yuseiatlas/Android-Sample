@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.androidsample.R
 import com.example.androidsample.databinding.FragmentListBinding
 import com.example.androidsample.extensions.viewBinding
+import com.example.androidsample.ui.list.adapter.PostAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 
@@ -17,14 +18,21 @@ import kotlinx.coroutines.flow.collectLatest
 class ListFragment : Fragment(R.layout.fragment_list) {
     private val binding by viewBinding(FragmentListBinding::bind)
     private val viewModel by viewModels<ListViewModel>()
+    private val postAdapter by lazy { PostAdapter(mutableListOf()) }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setup()
         observeState()
         observeEffects()
 
         viewModel.fetchPosts()
+    }
+
+    private fun setup() {
+        binding.rvPost.adapter = postAdapter
+        binding.swipeRefresh.setOnRefreshListener(viewModel::fetchPosts)
     }
 
     private fun observeState() {
@@ -36,11 +44,8 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     }
 
     private fun updateUi(state: ListState) {
-        if(state.isLoading) {
-            binding.content.text = "Loading..."
-        } else {
-            binding.content.text = state.posts.toString()
-        }
+        binding.swipeRefresh.isRefreshing = state.isLoading
+        postAdapter.updateList(state.posts)
     }
 
     private fun observeEffects() {
