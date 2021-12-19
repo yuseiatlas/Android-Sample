@@ -108,7 +108,7 @@ dependencies {
     implementation("androidx.room:room-ktx:${Versions.room}")
 
     // Dagger
-    implementation( "com.google.dagger:hilt-android:${Versions.dagger}")
+    implementation("com.google.dagger:hilt-android:${Versions.dagger}")
     kapt("com.google.dagger:hilt-compiler:${Versions.dagger}")
 
     // Standard libraries

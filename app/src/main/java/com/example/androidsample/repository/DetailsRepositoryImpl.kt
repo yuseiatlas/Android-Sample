@@ -5,5 +5,4 @@ import javax.inject.Inject
 
 class DetailsRepositoryImpl @Inject constructor(
     private val apiService: ApiService
-) : DetailsRepository {
-}
+) : DetailsRepository

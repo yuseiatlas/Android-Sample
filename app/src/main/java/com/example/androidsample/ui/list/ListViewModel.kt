@@ -2,7 +2,10 @@ package com.example.androidsample.ui.list
 
 import androidx.lifecycle.ViewModel
 import com.example.androidsample.extensions.launch
+import com.example.androidsample.model.Post
 import com.example.androidsample.repository.ListRepository
+import com.example.androidsample.ui.list.ListEffect.HandleThrowable
+import com.example.androidsample.ui.list.ListEffect.LaunchDetailsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -43,9 +46,14 @@ class ListViewModel @Inject constructor(
                 _state.emit(_state.value.copy(isLoading = false))
 
                 throwable.printStackTrace()
-                _effects.emit(ListEffect.HandleThrowable(throwable))
+                _effects.emit(HandleThrowable(throwable))
             }
         }
     }
 
+    fun onItemClicked(post: Post) {
+        launch(coroutineScope) {
+            _effects.emit(LaunchDetailsScreen(post))
+        }
+    }
 }

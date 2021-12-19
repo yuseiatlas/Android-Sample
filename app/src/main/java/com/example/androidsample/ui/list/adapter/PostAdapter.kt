@@ -7,10 +7,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.androidsample.databinding.ItemPostBinding
 import com.example.androidsample.model.Post
 
-class PostAdapter(private val posts: MutableList<Post>) : RecyclerView.Adapter<PostViewHolder>() {
+class PostAdapter(
+    private val posts: MutableList<Post>,
+    private val onItemClicked: (Post) -> Unit
+) : RecyclerView.Adapter<PostViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
         val binding = ItemPostBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return PostViewHolder(binding)
+        return PostViewHolder(binding).apply {
+            itemView.setOnClickListener { onItemClicked(posts[bindingAdapterPosition]) }
+        }
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
