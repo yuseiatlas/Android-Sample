@@ -1,5 +1,6 @@
 package com.example.androidsample.ui.details
 
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.androidsample.extensions.launch
@@ -11,6 +12,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import java.lang.reflect.Modifier.PRIVATE
 
 class DetailsViewModel @AssistedInject constructor(
     @Assisted private val postId: String,
@@ -26,14 +28,19 @@ class DetailsViewModel @AssistedInject constructor(
     }
 
     init {
+        observePostFlow()
+    }
+
+    private fun getInitialState() = DetailsState(post = null)
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    fun observePostFlow() {
         launch(coroutineScope) {
             repository.getPostById(postId).collectLatest { post ->
                 _state.emit(_state.value.copy(post = post))
             }
         }
     }
-
-    private fun getInitialState() = DetailsState(post = null)
 
     @Suppress("UNCHECKED_CAST")
     companion object {
