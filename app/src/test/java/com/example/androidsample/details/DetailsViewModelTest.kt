@@ -73,6 +73,5 @@ class DetailsViewModelTest {
         suspend fun emitPosts(post: Post) {
             postsFlow.emit(post)
         }
-
     }
 }
