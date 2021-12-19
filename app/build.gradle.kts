@@ -22,6 +22,7 @@ android {
         versionName = Versions.appVersionName
 
         buildConfigField("String", "SERVER_URL", "\"https://graphqlzero.almansi.me/api\"")
+        buildConfigField("String", "DATABASE_NAME", "\"sample_db\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

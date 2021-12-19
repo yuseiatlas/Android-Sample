@@ -1,7 +1,11 @@
 package com.example.androidsample.repository
 
 import com.example.androidsample.model.Post
+import kotlinx.coroutines.flow.Flow
 
 interface ListRepository {
-    suspend fun fetchPosts(): List<Post>
+
+    suspend fun getPosts(): Flow<List<Post>>
+
+    suspend fun refresh()
 }

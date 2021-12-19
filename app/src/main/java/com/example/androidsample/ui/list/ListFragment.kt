@@ -36,12 +36,12 @@ class ListFragment : Fragment(R.layout.fragment_list) {
         observeState()
         observeEffects()
 
-        viewModel.fetchPosts()
+        viewModel.refresh()
     }
 
     private fun setup() {
         binding.rvPost.adapter = postAdapter
-        binding.swipeRefresh.setOnRefreshListener(viewModel::fetchPosts)
+        binding.swipeRefresh.setOnRefreshListener(viewModel::refresh)
     }
 
     private fun observeState() {

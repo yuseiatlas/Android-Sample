@@ -8,10 +8,7 @@ import com.example.androidsample.ui.list.ListEffect.HandleThrowable
 import com.example.androidsample.ui.list.ListEffect.LaunchDetailsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asSharedFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,23 +22,31 @@ class ListViewModel @Inject constructor(
     private val _effects = MutableSharedFlow<ListEffect>()
     val effects = _effects.asSharedFlow()
 
+    init {
+        launch(coroutineScope) {
+            repository.getPosts().collectLatest { posts ->
+                _state.emit(
+                    _state.value.copy(
+                        posts = posts,
+                    )
+                )
+            }
+
+        }
+    }
+
     private fun getInitialState() = ListState(
         posts = emptyList(),
         isLoading = false
     )
 
-    fun fetchPosts() {
+    fun refresh() {
         launch(coroutineScope) {
             _state.emit(_state.value.copy(isLoading = true))
             try {
-                val posts = repository.fetchPosts()
+                repository.refresh()
 
-                _state.emit(
-                    _state.value.copy(
-                        posts = posts,
-                        isLoading = false
-                    )
-                )
+                _state.emit(_state.value.copy(isLoading = false))
             } catch (throwable: Throwable) {
                 _state.emit(_state.value.copy(isLoading = false))
 
