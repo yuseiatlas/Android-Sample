@@ -1,5 +1,7 @@
 package com.example.androidsample.ui.list
 
+import androidx.annotation.VisibleForTesting
+import androidx.annotation.VisibleForTesting.PRIVATE
 import androidx.lifecycle.ViewModel
 import com.example.androidsample.extensions.launch
 import com.example.androidsample.model.Post
@@ -8,7 +10,11 @@ import com.example.androidsample.ui.list.ListEffect.HandleThrowable
 import com.example.androidsample.ui.list.ListEffect.LaunchDetailsScreen
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collectLatest
 import javax.inject.Inject
 
 @HiltViewModel
@@ -23,6 +29,11 @@ class ListViewModel @Inject constructor(
     val effects = _effects.asSharedFlow()
 
     init {
+        observePostsFlow()
+    }
+
+    @VisibleForTesting(otherwise = PRIVATE)
+    fun observePostsFlow() {
         launch(coroutineScope) {
             repository.getPosts().collectLatest { posts ->
                 _state.emit(
@@ -31,7 +42,6 @@ class ListViewModel @Inject constructor(
                     )
                 )
             }
-
         }
     }
 

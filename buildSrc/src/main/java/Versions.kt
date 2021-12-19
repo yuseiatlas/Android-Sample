@@ -17,7 +17,7 @@ object Versions {
 
     // Kotlin
     const val kotlin = "1.6.10"
-    const val kotlinCoroutines = "1.6.0-RC3"
+    const val kotlinCoroutines = "1.5.0"
 
     // AndroidX and other Google things
     const val androidXCore = "1.6.0"

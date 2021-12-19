@@ -45,6 +45,5 @@ class DetailsViewModel @AssistedInject constructor(
                 return assistedFactory.create(postId) as T
             }
         }
-
     }
 }

@@ -7,7 +7,6 @@ import androidx.room.Query
 import com.example.androidsample.model.Post
 import kotlinx.coroutines.flow.Flow
 
-
 @Dao
 interface PostDao {
     @Query("SELECT * FROM post")
