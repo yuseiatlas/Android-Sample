@@ -8,6 +8,7 @@ import com.example.androidsample.ui.list.ListState
 import com.example.androidsample.ui.list.ListViewModel
 import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
+import io.mockk.clearAllMocks
 import io.mockk.coEvery
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -16,6 +17,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.TestCoroutineScope
 import kotlinx.coroutines.test.runBlockingTest
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
 import kotlin.time.ExperimentalTime
 
@@ -30,6 +32,11 @@ class ListViewModelTest {
         repository = repository,
         coroutineScope = testScope,
     )
+
+    @AfterEach
+    fun tearDown() {
+        clearAllMocks()
+    }
 
     @Test
     fun `initial state is emitted on ViewModel's launch`() = testScope.runBlockingTest {
