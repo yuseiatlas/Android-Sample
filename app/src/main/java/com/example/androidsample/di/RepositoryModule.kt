@@ -7,7 +7,9 @@ import com.example.androidsample.repository.ListRepositoryImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.FragmentComponent
 import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.android.scopes.FragmentScoped
 import dagger.hilt.android.scopes.ViewModelScoped
 
 @Module
@@ -17,8 +19,17 @@ interface RepositoryModule {
     @ViewModelScoped
     @Binds
     fun bindListRepository(listRepositoryImpl: ListRepositoryImpl): ListRepository
+}
 
-    @ViewModelScoped
+/**
+ * Currently DetailsRepository is only used in ViewModels.
+ * DetailsViewModel is not injected using @HiltViewModel so can't install in ViewModelComponent.
+ */
+@Module
+@InstallIn(FragmentComponent::class)
+interface DetailsRepositoryModule {
+
+    @FragmentScoped
     @Binds
     fun bindDetailsRepository(detailsRepositoryImpl: DetailsRepositoryImpl): DetailsRepository
 }
