@@ -28,7 +28,7 @@ object Versions {
     const val androidXAppCompat = "1.3.1"
     const val androidXVectorDrawableAnimated = "1.0.0"
     const val androidXConstraintLayout = "2.1.1"
-    const val androidXLifecycle = "2.3.1"
+    const val androidXLifecycle = "2.4.0"
     const val androidXArch = "2.1.0"
     const val androidXPaging = "3.0.1"
     const val androidXAnnotation = "1.1.0"

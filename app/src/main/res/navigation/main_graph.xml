@@ -15,5 +15,9 @@
     <fragment
         android:id="@+id/detailsFragment"
         android:name="com.example.androidsample.ui.details.DetailsFragment"
-        android:label="DetailsFragment" />
+        android:label="DetailsFragment" >
+        <argument
+            android:name="postId"
+            app:argType="string" />
+    </fragment>
 </navigation>

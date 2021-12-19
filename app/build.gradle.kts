@@ -10,6 +10,7 @@ plugins {
     id("kotlin-android-extensions") // Needs to be after kotlin-android
     id("dagger.hilt.android.plugin")
     id("com.apollographql.apollo3") version Versions.apollo
+    id("androidx.navigation.safeargs.kotlin")
 }
 android {
     compileSdk = Versions.androidCompileSdk

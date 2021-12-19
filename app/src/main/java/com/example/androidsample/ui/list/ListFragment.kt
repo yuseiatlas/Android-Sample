@@ -6,7 +6,9 @@ import android.widget.Toast
 import android.widget.Toast.LENGTH_LONG
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.example.androidsample.R
 import com.example.androidsample.databinding.FragmentListBinding
@@ -17,6 +19,7 @@ import com.example.androidsample.ui.list.ListEffect.LaunchDetailsScreen
 import com.example.androidsample.ui.list.adapter.PostAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class ListFragment : Fragment(R.layout.fragment_list) {
@@ -45,9 +48,11 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     }
 
     private fun observeState() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.state.collectLatest { state ->
-                updateUi(state)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.state.collectLatest { state ->
+                    updateUi(state)
+                }
             }
         }
     }
@@ -58,19 +63,20 @@ class ListFragment : Fragment(R.layout.fragment_list) {
     }
 
     private fun observeEffects() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.effects.collectLatest { effect ->
-                when (effect) {
-                    is LaunchDetailsScreen -> launchDetailsScreen(effect.post)
-                    is HandleThrowable -> handleThrowable(effect.throwable)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.effects.collectLatest { effect ->
+                    when (effect) {
+                        is LaunchDetailsScreen -> launchDetailsScreen(effect.post)
+                        is HandleThrowable -> handleThrowable(effect.throwable)
+                    }
                 }
             }
         }
     }
 
     private fun launchDetailsScreen(post: Post) {
-        // TODO: pass post here
-        findNavController().navigate(R.id.viewDetails)
+        findNavController().navigate(ListFragmentDirections.viewDetails(post.id))
     }
 
     private fun handleThrowable(throwable: Throwable) {
