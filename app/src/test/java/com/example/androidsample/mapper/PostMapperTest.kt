@@ -10,7 +10,10 @@ class PostMapperTest {
     private val post = GetAllPostsQuery.Data1(
         id = "42",
         title = "What's love?",
-        body = "Baby don't hurt me. Don't hurt me. No more."
+        body = "Baby don't hurt me. Don't hurt me. No more.",
+        user = GetAllPostsQuery.User(
+            username = "Haddaway"
+        )
     )
 
     @Test
@@ -21,6 +24,7 @@ class PostMapperTest {
             id shouldBe post.id
             title shouldBe post.title
             body shouldBe post.body
+            author shouldBe post.user!!.username
         }
     }
 
@@ -48,6 +52,24 @@ class PostMapperTest {
 
         shouldThrowExactly<NullPointerException> {
             postMapper.toPost(nullBodyPost)
+        }
+    }
+
+    @Test
+    fun `null user should throw an NPE while mapping`() {
+        val nullUserPost = post.copy(user = null)
+
+        shouldThrowExactly<NullPointerException> {
+            postMapper.toPost(nullUserPost)
+        }
+    }
+
+    @Test
+    fun `null username should throw an NPE while mapping`() {
+        val nullUsernamePost = post.copy(user = GetAllPostsQuery.User(username = null))
+
+        shouldThrowExactly<NullPointerException> {
+            postMapper.toPost(nullUsernamePost)
         }
     }
 }

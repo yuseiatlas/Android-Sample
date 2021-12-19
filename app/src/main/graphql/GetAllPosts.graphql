@@ -1,4 +1,4 @@
-query GetAllPosts(
+query getAllPosts(
     $options: PageQueryOptions
 ) {
     posts(options: $options) {
@@ -6,6 +6,9 @@ query GetAllPosts(
             id
             title
             body
+            user {
+                username
+            }
         }
         meta {
             totalCount
