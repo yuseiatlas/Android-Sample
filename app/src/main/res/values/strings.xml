@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Android Sample</string>
+
+    <!-- General -->
+    <string name="generic_error">An error has occurred: %1$s</string>
+
+    <!-- List -->
+    <string name="list_empty_view_body">Unfortunately, no posts are available at the moment. You can refresh the data by click the button below</string>
+    <string name="list_empty_view_title">No Posts! 😞</string>
+    <string name="list_empty_view_cta">Refresh</string>
+
+    <!-- Details -->
+    <string name="details_author_title">By %1$s</string>
 </resources>

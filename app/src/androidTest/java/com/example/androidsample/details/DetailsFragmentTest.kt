@@ -1,5 +1,7 @@
 package com.example.androidsample.details
 
+import android.content.Context
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.matcher.ViewMatchers.withId
@@ -31,12 +33,13 @@ class DetailsFragmentTest {
                 """,
             author = "Ray Charles"
         )
+        val context = ApplicationProvider.getApplicationContext<Context>()
         ArrangeBuilder()
             .withState(DetailsState(post = post))
             .startFragment()
 
         onView(withId(R.id.tvTitle)).check(matches(withText(post.title)))
-        onView(withId(R.id.tvAuthor)).check(matches(withText(post.author)))
+        onView(withId(R.id.tvAuthor)).check(matches((withText(context.getString(R.string.details_author_title, post.author)))))
         onView(withId(R.id.tvBody)).check(matches(withText(post.body)))
     }
 

@@ -91,7 +91,6 @@ dependencies {
     implementation("androidx.fragment:fragment:${Versions.androidXFragment}")
     implementation("androidx.fragment:fragment-ktx:${Versions.androidXFragment}")
     implementation("androidx.constraintlayout:constraintlayout:${Versions.androidXConstraintLayout}")
-    implementation("androidx.paging:paging-runtime-ktx:${Versions.androidXPaging}")
     implementation("androidx.recyclerview:recyclerview:${Versions.androidXRecyclerView}")
     implementation("androidx.cardview:cardview:${Versions.androidXCardView}")
     implementation("androidx.appcompat:appcompat:${Versions.androidXAppCompat}")
@@ -120,13 +119,10 @@ dependencies {
     // Standard libraries
     implementation("com.jakewharton.timber:timber:${Versions.timber}")
     implementation("com.apollographql.apollo3:apollo-runtime:${Versions.apollo}")
-    implementation("com.google.code.gson:gson:${Versions.gson}")
     implementation("com.squareup.okhttp3:logging-interceptor:${Versions.okHttp3}")
 
     // **** DEBUG **** //
 
-    debugImplementation("com.squareup.okhttp3:mockwebserver:${Versions.okHttp}")
-    debugImplementation("com.squareup.leakcanary:leakcanary-android:${Versions.leakCanary}")
     debugImplementation("androidx.fragment:fragment-testing:${Versions.androidXFragmentTesting}")
 
     // **** TESTING **** //

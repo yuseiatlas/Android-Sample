@@ -86,6 +86,6 @@ open class ListFragment : Fragment(R.layout.fragment_list) {
     }
 
     private fun handleThrowable(throwable: Throwable) {
-        Toast.makeText(requireContext(), "Error occurred: ${throwable.message}", LENGTH_LONG).show()
+        Toast.makeText(requireContext(), getString(R.string.generic_error, throwable.message), LENGTH_LONG).show()
     }
 }
