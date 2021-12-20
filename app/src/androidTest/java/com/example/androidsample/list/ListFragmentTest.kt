@@ -24,7 +24,6 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import org.hamcrest.CoreMatchers.not
-
 import org.junit.Test
 
 class ListFragmentTest {
@@ -115,7 +114,6 @@ class ListFragmentTest {
         ArrangeBuilder()
             .withState(createState(posts = emptyList()))
             .startFragment()
-
 
         onView(withId(R.id.ctaEmptyView)).perform(click())
         verify { viewModel.refresh() }
