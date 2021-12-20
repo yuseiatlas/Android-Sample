@@ -4,6 +4,7 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions.matches
 import androidx.test.espresso.contrib.RecyclerViewActions
+import androidx.test.espresso.matcher.ViewMatchers.isDisplayed
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.espresso.matcher.ViewMatchers.withText
 import com.example.androidsample.R
@@ -48,7 +49,7 @@ class ListFragmentTest {
     }
 
     @Test
-    fun withPosts_dataIsPopulated() {
+    fun withPosts_emptyViewIsHiddenAndListIsPopulated() {
         val posts = listOf(
             createPost(
                 "1",
@@ -69,6 +70,9 @@ class ListFragmentTest {
             .withState(createState(posts = posts))
             .startFragment()
 
+        onView(withId(R.id.tvEmptyViewTitle)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.tvEmptyViewBody)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.ctaEmptyView)).check(matches(not(isDisplayed())))
         posts.forEachIndexed { index, post ->
             onView(
                 withRecyclerView(R.id.rvPost)
@@ -92,6 +96,29 @@ class ListFragmentTest {
 
         onView(withId(R.id.rvPost)).perform(RecyclerViewActions.actionOnItemAtPosition<PostViewHolder>(0, click()))
         verify(exactly = 1) { viewModel.onItemClicked(posts.first()) }
+    }
+
+    @Test
+    fun withoutPosts_emptyViewIsShown() {
+        ArrangeBuilder()
+            .withState(createState(posts = emptyList()))
+            .startFragment()
+
+        onView(withId(R.id.swipeRefresh)).check(matches(not(isDisplayed())))
+        onView(withId(R.id.tvEmptyViewTitle)).check(matches(isDisplayed()))
+        onView(withId(R.id.tvEmptyViewBody)).check(matches(isDisplayed()))
+        onView(withId(R.id.ctaEmptyView)).check(matches(isDisplayed()))
+    }
+
+    @Test
+    fun withoutPosts_clickingOnEmptyViewCTA_refreshesList() {
+        ArrangeBuilder()
+            .withState(createState(posts = emptyList()))
+            .startFragment()
+
+
+        onView(withId(R.id.ctaEmptyView)).perform(click())
+        verify { viewModel.refresh() }
     }
 
     private fun createState(
