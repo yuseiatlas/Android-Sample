@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class DetailsFragment : Fragment(R.layout.fragment_details) {
+open class DetailsFragment : Fragment(R.layout.fragment_details) {
 
     private val binding by viewBinding(FragmentDetailsBinding::bind)
     private val args by navArgs<DetailsFragmentArgs>()
@@ -25,7 +25,7 @@ class DetailsFragment : Fragment(R.layout.fragment_details) {
     @Inject
     lateinit var viewModelFactory: DetailsViewModel.DetailsViewModelFactory
 
-    private val viewModel: DetailsViewModel by viewModels {
+    protected open val viewModel: DetailsViewModel by viewModels {
         DetailsViewModel.provideFactory(viewModelFactory, args.postId)
     }
 
