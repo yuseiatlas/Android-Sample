@@ -22,9 +22,9 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class ListFragment : Fragment(R.layout.fragment_list) {
+open class ListFragment : Fragment(R.layout.fragment_list) {
     private val binding by viewBinding(FragmentListBinding::bind)
-    private val viewModel by viewModels<ListViewModel>()
+    protected open val viewModel by viewModels<ListViewModel>()
     private val postAdapter by lazy {
         PostAdapter(
             mutableListOf(),

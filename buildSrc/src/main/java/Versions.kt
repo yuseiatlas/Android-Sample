@@ -50,7 +50,7 @@ object Versions {
     const val jUnit5Android = "1.7.1.1"
     const val kotest = "4.6.3"
     const val androidXTest = "1.4.0"
-    const val androidXTestEspresso = "3.4.0"
+    const val androidXTestEspresso = "3.3.0"
     const val androidXTestJUnit = "1.1.3"
     const val androidXTestOrchestrator = "1.4.0"
     const val androidXFragmentTesting = "1.4.0"
