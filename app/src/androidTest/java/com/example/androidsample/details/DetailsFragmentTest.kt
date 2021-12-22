@@ -50,7 +50,7 @@ class DetailsFragmentTest {
                             post.username
                         )
                     )
-                )
+                    )
             )
         )
         onView(withId(R.id.tvBody)).check(matches(withText(post.body)))
