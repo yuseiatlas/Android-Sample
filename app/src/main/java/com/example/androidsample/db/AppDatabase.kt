@@ -6,7 +6,7 @@ import com.example.androidsample.model.Post
 
 @Database(
     entities = [Post::class],
-    version = 1,
+    version = 2,
     exportSchema = true
 )
 abstract class AppDatabase : RoomDatabase() {

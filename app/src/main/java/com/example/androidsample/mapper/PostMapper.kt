@@ -10,6 +10,7 @@ class PostMapper @Inject constructor() {
         id = post.id!!,
         title = post.title!!,
         body = post.body!!,
-        author = post.user!!.username!!
+        author = post.user!!.name!!,
+        username = post.user.username!!,
     )
 }

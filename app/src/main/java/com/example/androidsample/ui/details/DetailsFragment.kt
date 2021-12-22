@@ -48,7 +48,7 @@ open class DetailsFragment : Fragment(R.layout.fragment_details) {
     private fun updateUi(state: DetailsState) {
         state.post?.let { post ->
             binding.tvTitle.text = post.title
-            binding.tvAuthor.text = getString(R.string.details_author_title, post.author)
+            binding.tvAuthor.text = getString(R.string.details_author_title, post.author, post.username)
             binding.tvBody.text = post.body
         }
     }

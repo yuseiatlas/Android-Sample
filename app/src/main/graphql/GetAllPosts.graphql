@@ -7,6 +7,7 @@ query getAllPosts(
             title
             body
             user {
+                name
                 username
             }
         }

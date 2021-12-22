@@ -10,4 +10,5 @@ data class Post(
     val title: String,
     val body: String,
     val author: String,
+    val username: String
 )
