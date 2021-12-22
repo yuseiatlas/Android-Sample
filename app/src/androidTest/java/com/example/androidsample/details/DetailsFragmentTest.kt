@@ -31,7 +31,8 @@ class DetailsFragmentTest {
                 No more, no more, no more, no more
                 Hit the road Jack and don't you come back no more
                 """,
-            author = "Ray Charles"
+            author = "Ray Charles",
+            username = "ray"
         )
         val context = ApplicationProvider.getApplicationContext<Context>()
         ArrangeBuilder()
@@ -39,7 +40,19 @@ class DetailsFragmentTest {
             .startFragment()
 
         onView(withId(R.id.tvTitle)).check(matches(withText(post.title)))
-        onView(withId(R.id.tvAuthor)).check(matches((withText(context.getString(R.string.details_author_title, post.author)))))
+        onView(withId(R.id.tvAuthor)).check(
+            matches(
+                (
+                    withText(
+                        context.getString(
+                            R.string.details_author_title,
+                            post.author,
+                            post.username
+                        )
+                    )
+                )
+            )
+        )
         onView(withId(R.id.tvBody)).check(matches(withText(post.body)))
     }
 

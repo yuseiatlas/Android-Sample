@@ -132,11 +132,13 @@ class ListFragmentTest {
         title: String = "Title",
         body: String = "Body",
         author: String = "Author",
+        username: String = "Username",
     ) = Post(
         id = id,
         title = title,
         body = body,
-        author = author
+        author = author,
+        username = username
     )
 
     private inner class ArrangeBuilder {
