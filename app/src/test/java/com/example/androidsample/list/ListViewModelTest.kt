@@ -67,9 +67,28 @@ class ListViewModelTest {
     }
 
     @Test
+    fun `refresh on success emits received posts`() = testScope.runBlockingTest {
+        val posts = listOf<Post>(
+            mockk(),
+            mockk()
+        )
+        ArrangeBuilder()
+            .withRefreshSuccess(posts)
+
+        viewModel.state.test {
+            viewModel.refresh()
+
+            awaitItem().posts shouldBe emptyList() // initial posts
+            awaitItem().posts shouldBe emptyList() // initial load
+            awaitItem().posts shouldBe posts
+            expectNoEvents()
+        }
+    }
+
+    @Test
     fun `refresh on success emits correct loading state`() = testScope.runBlockingTest {
         ArrangeBuilder()
-            .withRefreshSuccess()
+            .withRefreshSuccess(emptyList())
 
         viewModel.state.test {
             viewModel.refresh()
@@ -127,8 +146,8 @@ class ListViewModelTest {
             return this
         }
 
-        fun withRefreshSuccess(): ArrangeBuilder {
-            coEvery { repository.refresh() } returns Unit
+        fun withRefreshSuccess(posts: List<Post>): ArrangeBuilder {
+            coEvery { repository.refresh() } returns posts
             return this
         }
 
