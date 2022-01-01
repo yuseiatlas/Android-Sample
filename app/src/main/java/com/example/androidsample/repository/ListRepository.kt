@@ -4,8 +4,5 @@ import com.example.androidsample.model.Post
 import kotlinx.coroutines.flow.Flow
 
 interface ListRepository {
-
-    suspend fun getPosts(): Flow<List<Post>>
-
-    suspend fun refresh(): List<Post>
+    suspend fun refresh(): Flow<List<Post>>
 }

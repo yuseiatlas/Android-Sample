@@ -9,7 +9,9 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import javax.inject.Singleton
@@ -38,6 +40,12 @@ object AppModule {
     @Singleton
     @Provides
     fun provideApiService(apolloClient: ApolloClient): ApiService = ApiServiceImpl(apolloClient)
+
+    @Singleton
+    @Provides
+    fun provideCoroutineDispatcher(): CoroutineDispatcher {
+        return Dispatchers.IO
+    }
 
     @Provides
     fun provideCoroutineScope(): CoroutineScope? {
