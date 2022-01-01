@@ -6,7 +6,6 @@ import com.example.androidsample.repository.ListRepository
 import com.example.androidsample.ui.list.ListEffect.HandleThrowable
 import com.example.androidsample.ui.list.ListState
 import com.example.androidsample.ui.list.ListViewModel
-import io.kotest.matchers.collections.shouldBeEmpty
 import io.kotest.matchers.shouldBe
 import io.mockk.clearAllMocks
 import io.mockk.coEvery
@@ -47,21 +46,6 @@ class ListViewModelTest {
                 posts = emptyList(),
                 isLoading = false
             )
-            expectNoEvents()
-        }
-    }
-
-    @Test
-    fun `new posts on flow emits new state`() = testScope.runBlockingTest {
-        val builder = ArrangeBuilder()
-            .withMutablePostsFlow()
-
-        viewModel.state.test {
-            viewModel.observePostsFlow()
-            builder.emitPosts(posts)
-
-            awaitItem().posts.shouldBeEmpty() // initial posts
-            awaitItem().posts shouldBe posts
             expectNoEvents()
         }
     }
@@ -132,27 +116,13 @@ class ListViewModelTest {
     private inner class ArrangeBuilder {
         private val postsFlow = MutableStateFlow<List<Post>>(emptyList())
 
-        init {
-            withPosts(emptyList())
-        }
-
-        fun withPosts(posts: List<Post>): ArrangeBuilder {
-            coEvery { repository.getPosts() } returns flow { emit(posts) }
-            return this
-        }
-
-        fun withMutablePostsFlow(): ArrangeBuilder {
-            coEvery { repository.getPosts() } returns postsFlow
-            return this
-        }
-
         fun withRefreshSuccess(posts: List<Post>): ArrangeBuilder {
-            coEvery { repository.refresh() } returns posts
+            coEvery { repository.refresh() } returns flow { emit(posts) }
             return this
         }
 
         fun withRefreshFailure(throwable: Throwable): ArrangeBuilder {
-            coEvery { repository.refresh() } throws throwable
+            coEvery { repository.refresh() } returns flow { throw throwable }
             return this
         }
 

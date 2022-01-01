@@ -1,5 +1,6 @@
 package com.example.androidsample.list
 
+import app.cash.turbine.test
 import com.example.androidsample.GetAllPostsQuery
 import com.example.androidsample.db.PostDao
 import com.example.androidsample.mapper.PostMapper
@@ -14,20 +15,24 @@ import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.test.TestCoroutineDispatcher
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Test
+import kotlin.time.ExperimentalTime
 
+@ExperimentalTime
 @ExperimentalCoroutinesApi
 class ListRepositoryImplTest {
     private val apiService = mockk<ApiService>(relaxed = true)
     private val postDao = mockk<PostDao>(relaxed = true)
     private val postMapper = mockk<PostMapper>(relaxed = true)
+    private val testDispatcher = TestCoroutineDispatcher()
     private val repository: ListRepository = ListRepositoryImpl(
         apiService = apiService,
         postDao = postDao,
-        postMapper = postMapper
+        postMapper = postMapper,
+        coroutineDispatcher = testDispatcher
     )
 
     @AfterEach
@@ -36,16 +41,34 @@ class ListRepositoryImplTest {
     }
 
     @Test
-    fun `getPosts returns the value from PostDao`() = runBlockingTest {
-        val flow = mockk<Flow<List<Post>>>()
+    fun `refresh emits cached posts then received posts`() = runBlockingTest {
+        val post = mockk<Post>()
+        val cachedPosts = listOf<Post>(
+            mockk(),
+            mockk(),
+        )
+        val response = GetAllPostsQuery.Data(
+            posts = GetAllPostsQuery.Posts(
+                data = listOf(mockk()),
+                meta = null
+            )
+        )
         ArrangeBuilder()
-            .withPostFlow(flow)
+            .withCachedPosts(cachedPosts)
+            .withSuccessRefresh(response)
+            .withMappedPost(post)
 
-        repository.getPosts() shouldBe flow
+        repository.refresh().test {
+            awaitItem() shouldBe cachedPosts
+            awaitItem() shouldBe listOf(post)
+            awaitComplete()
+        }
+        coVerify(exactly = 1) { postDao.clear() }
+        coVerify(exactly = 1) { postDao.insertPosts(listOf(post)) }
     }
 
     @Test
-    fun `refresh with data received caches fetched posts`() = runBlockingTest {
+    fun `refresh with received posts caches newly fetched posts`() = runBlockingTest {
         val post = mockk<Post>()
         val response = GetAllPostsQuery.Data(
             posts = GetAllPostsQuery.Posts(
@@ -74,13 +97,13 @@ class ListRepositoryImplTest {
 
     private inner class ArrangeBuilder {
 
-        fun withPostFlow(flow: Flow<List<Post>>): ArrangeBuilder {
-            every { postDao.getPosts() } returns flow
+        fun withSuccessRefresh(data: GetAllPostsQuery.Data?): ArrangeBuilder {
+            coEvery { apiService.fetchPosts() } returns data
             return this
         }
 
-        fun withSuccessRefresh(data: GetAllPostsQuery.Data?): ArrangeBuilder {
-            coEvery { apiService.fetchPosts() } returns data
+        fun withCachedPosts(posts: List<Post>): ArrangeBuilder {
+            coEvery { postDao.getPosts() } returns posts
             return this
         }
 
