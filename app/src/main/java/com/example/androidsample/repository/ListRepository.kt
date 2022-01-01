@@ -7,5 +7,5 @@ interface ListRepository {
 
     suspend fun getPosts(): Flow<List<Post>>
 
-    suspend fun refresh()
+    suspend fun refresh(): List<Post>
 }

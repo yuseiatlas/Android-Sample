@@ -35,13 +35,14 @@ class ListViewModel @Inject constructor(
     @VisibleForTesting(otherwise = PRIVATE)
     fun observePostsFlow() {
         launch(coroutineScope) {
-            repository.getPosts().collectLatest { posts ->
-                _state.emit(
-                    _state.value.copy(
-                        posts = posts,
+            repository.getPosts()
+                .collectLatest { posts ->
+                    _state.emit(
+                        _state.value.copy(
+                            posts = posts,
+                        )
                     )
-                )
-            }
+                }
         }
     }
 
@@ -54,9 +55,14 @@ class ListViewModel @Inject constructor(
         launch(coroutineScope) {
             _state.emit(_state.value.copy(isLoading = true))
             try {
-                repository.refresh()
+                val posts = repository.refresh()
 
-                _state.emit(_state.value.copy(isLoading = false))
+                _state.emit(
+                    _state.value.copy(
+                        posts = posts,
+                        isLoading = false
+                    )
+                )
             } catch (throwable: Throwable) {
                 _state.emit(_state.value.copy(isLoading = false))
 
